@@ -9,9 +9,7 @@
 <link rel="apple-touch-icon" href="logo.png">
 
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
 <script>
@@ -57,7 +55,7 @@
     margin: 0; background: var(--bg); color: var(--text);
     font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
-    transition: background-color .3s ease, color .3s ease;
+    transition: background-color .35s ease, color .35s ease;
     font-feature-settings: 'cv11', 'ss01';
     overflow-x: hidden;
   }
@@ -72,7 +70,7 @@
     width: 252px; flex-shrink: 0; position: sticky; top: 0; height: 100vh;
     display: flex; flex-direction: column; gap: 1.5rem; padding: 1.4rem .9rem;
     background: var(--surface); border-right: 1px solid var(--border);
-    transition: background-color .3s ease, border-color .3s ease; z-index: 40;
+    transition: background-color .35s ease, border-color .35s ease; z-index: 40;
   }
   .main { flex: 1; min-width: 0; }
 
@@ -93,10 +91,11 @@
     width: 100%; padding: .68rem .85rem; border-radius: 9px;
     border: 1px solid transparent; background: transparent; color: var(--muted);
     font-size: .82rem; font-weight: 600; font-family: inherit; text-align: left; cursor: pointer;
-    transition: color .18s, background-color .18s, border-color .18s;
+    transition: color .25s ease, background-color .25s ease, border-color .25s ease, transform .25s cubic-bezier(.22,1,.36,1);
   }
-  .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; stroke-width: 2; }
-  .nav-item:hover { color: var(--text); background: var(--surface-2); }
+  .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; stroke-width: 2; transition: color .25s ease, transform .3s cubic-bezier(.22,1,.36,1); }
+  .nav-item:hover { color: var(--text); background: var(--surface-2); transform: translateX(2px); }
+  .nav-item:hover svg { transform: scale(1.08); }
   .nav-item.active { color: var(--text); background: var(--surface-2); border-color: var(--border); }
   .nav-item.active svg { color: var(--accent); }
   .nav-item .num {
@@ -122,7 +121,7 @@
   .card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 14px; box-shadow: var(--shadow-sm);
-    transition: background-color .3s ease, border-color .3s ease, box-shadow .25s ease;
+    transition: background-color .35s ease, border-color .35s ease, box-shadow .3s ease;
   }
   .chip-icon {
     width: 36px; height: 36px; flex-shrink: 0; border-radius: 9px;
@@ -138,7 +137,7 @@
   .field {
     width: 100%; background: var(--surface-2); border: 1px solid var(--border); color: var(--text);
     border-radius: 10px; padding: .68rem .9rem; font-size: .85rem; font-family: inherit; outline: none;
-    transition: border-color .18s, box-shadow .18s, background-color .25s;
+    transition: border-color .25s ease, box-shadow .25s ease, background-color .3s ease;
   }
   .field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
   .field::placeholder { color: var(--muted-2); }
@@ -149,10 +148,11 @@
     display: flex; align-items: center; justify-content: center; gap: .4rem;
     padding: .62rem .55rem; border-radius: 10px; border: 1px solid var(--border);
     background: var(--surface-2); color: var(--muted); font-size: .78rem; font-weight: 600;
-    font-family: inherit; cursor: pointer; transition: all .18s ease;
+    font-family: inherit; cursor: pointer; transition: all .28s cubic-bezier(.22,1,.36,1);
   }
   .seg-btn svg { width: 15px; height: 15px; stroke-width: 2.2; }
   .seg-btn:hover { color: var(--text); border-color: var(--border-2); }
+  .seg-btn:active { transform: scale(.97); }
   .seg-btn.active[data-value="Kabar Baik"] { background: var(--pos-soft); border-color: var(--pos-border); color: var(--pos); }
   .seg-btn.active[data-value="Kabar Buruk"] { background: var(--neg-soft); border-color: var(--neg-border); color: var(--neg); }
 
@@ -164,7 +164,7 @@
     -webkit-appearance: none; appearance: none; width: 20px; height: 20px;
     border-radius: 50%; background: var(--accent); border: 3px solid var(--surface);
     box-shadow: 0 0 0 1px var(--accent), 0 4px 12px -4px var(--accent);
-    cursor: grab; transition: transform .15s ease;
+    cursor: grab; transition: transform .2s cubic-bezier(.22,1,.36,1);
   }
   input[type="range"].range::-webkit-slider-thumb:hover { transform: scale(1.12); }
   input[type="range"].range::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.04); }
@@ -177,7 +177,7 @@
     min-width: 72px; text-align: center; padding: .5rem .6rem; border-radius: 10px;
     font-size: 1.05rem; font-weight: 800; font-variant-numeric: tabular-nums;
     border: 1px solid var(--border); background: var(--surface-2);
-    transition: all .2s ease; letter-spacing: -.01em;
+    transition: color .25s ease, background-color .25s ease, border-color .25s ease; letter-spacing: -.01em;
   }
 
   .btn-primary {
@@ -185,21 +185,24 @@
     gap: .45rem; padding: .75rem 1.4rem; border: none; border-radius: 10px;
     font-size: .84rem; font-weight: 700; font-family: inherit; color: #ffffff;
     cursor: pointer; background: var(--accent); overflow: hidden;
-    transition: transform .18s cubic-bezier(.22,1,.36,1), filter .2s, opacity .2s, box-shadow .25s;
+    transition: transform .3s cubic-bezier(.22,1,.36,1), filter .25s, opacity .25s, box-shadow .3s;
   }
   .btn-primary svg { width: 16px; height: 16px; stroke-width: 2.4; }
   .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 8px 24px -8px var(--accent); }
-  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:active { transform: translateY(0) scale(.98); }
   .btn-primary:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 
   .icon-btn {
     width: 38px; height: 38px; flex-shrink: 0; display: inline-grid; place-items: center;
     border-radius: 10px; border: 1px solid var(--border); background: var(--surface);
-    color: var(--muted); cursor: pointer; transition: all .2s ease;
+    color: var(--muted); cursor: pointer;
+    transition: color .25s ease, border-color .25s ease, background-color .25s ease, transform .25s cubic-bezier(.22,1,.36,1), opacity .25s ease;
   }
   .icon-btn svg { width: 17px; height: 17px; stroke-width: 2; }
   .icon-btn:hover { color: var(--text); border-color: var(--border-2); background: var(--surface-2); }
-  .icon-btn:active { transform: scale(.96); }
+  .icon-btn:active { transform: scale(.92); }
+  .icon-btn:disabled { opacity: .38; cursor: not-allowed; transform: none; }
+  .icon-btn:disabled:hover { color: var(--muted); border-color: var(--border); background: var(--surface); }
   .icon-btn.active { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
 
   html[data-theme="dark"] .icon-moon { display: none; }
@@ -248,12 +251,13 @@
     position: relative; display: flex; align-items: center; justify-content: space-between;
     gap: 1rem; padding: .95rem 1.15rem; border-radius: 12px;
     background: var(--surface); border: 1px solid var(--border); cursor: pointer;
-    transition: transform .22s cubic-bezier(.22,1,.36,1), border-color .2s, box-shadow .25s, background-color .2s;
+    transition: transform .38s cubic-bezier(.22,1,.36,1), border-color .3s ease, box-shadow .38s ease, background-color .3s ease;
   }
-  .log-card:hover { transform: translateY(-2px); border-color: var(--border-2); box-shadow: var(--shadow-md); }
+  .log-card:hover { transform: translateY(-3px); border-color: var(--border-2); box-shadow: var(--shadow-md); }
+  .log-card:active { transform: translateY(-1px) scale(.995); }
   .log-accent {
     position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px;
-    border-radius: 0 3px 3px 0; transition: top .25s ease, bottom .25s ease;
+    border-radius: 0 3px 3px 0; transition: top .38s cubic-bezier(.22,1,.36,1), bottom .38s cubic-bezier(.22,1,.36,1);
   }
   .log-card:hover .log-accent { top: 6px; bottom: 6px; }
   .log-main { flex: 1; min-width: 0; }
@@ -302,11 +306,11 @@
   }
   @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  .animate-in { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-in { animation: fadeUp .7s cubic-bezier(.22,1,.36,1) both; }
   @keyframes popValue { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
-  .pop { animation: popValue .45s cubic-bezier(.22,1,.36,1); }
-  .view { animation: fadeUp .35s ease both; }
+  .pop { animation: popValue .55s cubic-bezier(.22,1,.36,1); }
+  .view { animation: fadeUp .55s cubic-bezier(.22,1,.36,1) both; }
   .view.hidden { display: none; }
 
   .chart-card-header {
@@ -317,67 +321,49 @@
   .chart-tools .icon-btn { width: 34px; height: 34px; border-radius: 9px; }
   .chart-tools .icon-btn svg { width: 15px; height: 15px; }
   .chart-tools .divider { width: 1px; height: 22px; background: var(--border); margin: 0 .15rem; }
+  .zoom-badge {
+    min-width: 46px; text-align: center; padding: .38rem .5rem; border-radius: 9px;
+    font-size: .68rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: .02em;
+    color: var(--muted); background: var(--surface-2); border: 1px solid var(--border);
+  }
 
   .chart-shell {
     position: relative; width: 100%; height: 340px;
-    touch-action: pan-y; user-select: none; -webkit-user-select: none;
+    touch-action: pan-y; overscroll-behavior-x: contain;
+    user-select: none; -webkit-user-select: none;
+    cursor: grab; outline: none; border-radius: 10px;
   }
+  .chart-shell.grabbing { cursor: grabbing; }
+  .chart-shell:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft); }
   .chart-hint {
     position: absolute; top: .55rem; right: .65rem;
     font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
     color: var(--muted-2); background: var(--surface); border: 1px solid var(--border);
     border-radius: 999px; padding: .2rem .55rem; pointer-events: none;
-    opacity: .9; transition: opacity .3s ease;
+    opacity: .9; transition: opacity .6s ease;
   }
 
-  /* =========================================================
-     CHART SCROLLBAR (slider horizontal)
-     ========================================================= */
+  /* Scrollbar horizontal chart */
   .chart-scrollbar {
-    position: relative;
-    margin-top: 12px;
-    padding: 6px 2px 2px;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: none;
+    position: relative; margin-top: 12px; padding: 6px 2px 2px;
+    user-select: none; -webkit-user-select: none; touch-action: none;
   }
   .chart-scrollbar-track {
-    position: relative;
-    height: 10px;
-    border-radius: 999px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    overflow: hidden;
-    cursor: pointer;
+    position: relative; height: 10px; border-radius: 999px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    overflow: hidden; cursor: pointer;
   }
   .chart-scrollbar-thumb {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    min-width: 40px;
+    position: absolute; top: 0; left: 0; height: 100%; min-width: 44px;
     border-radius: 999px;
-    background: linear-gradient(180deg,
-                color-mix(in srgb, var(--accent) 85%, transparent),
-                var(--accent));
-    box-shadow: 0 0 0 1px var(--accent-border),
-                0 4px 12px -6px var(--accent);
-    opacity: .7;
-    cursor: grab;
-    will-change: transform, width;
-    transition: opacity .22s ease, background-color .22s ease;
-    touch-action: none;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 85%, transparent), var(--accent));
+    box-shadow: 0 0 0 1px var(--accent-border), 0 4px 12px -6px var(--accent);
+    opacity: .7; cursor: grab; will-change: transform, width;
+    transition: opacity .35s ease; touch-action: none;
   }
   .chart-scrollbar-thumb:hover { opacity: .92; }
-  .chart-scrollbar-thumb.dragging {
-    opacity: 1;
-    cursor: grabbing;
-    transition: none;
-  }
-  .chart-scrollbar.scrollbar-idle .chart-scrollbar-thumb {
-    opacity: .25;
-    cursor: default;
-  }
+  .chart-scrollbar-thumb.dragging { opacity: 1; cursor: grabbing; }
+  .chart-scrollbar.scrollbar-idle .chart-scrollbar-thumb { opacity: .25; cursor: default; }
   .chart-scrollbar.scrollbar-idle .chart-scrollbar-track { cursor: default; }
 
   .modal-backdrop {
@@ -385,14 +371,14 @@
     display: flex; align-items: center; justify-content: center;
     padding: 1rem; background: rgba(3,8,18,.72);
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    opacity: 0; pointer-events: none; transition: opacity .4s ease;
   }
   .modal-backdrop.open { opacity: 1; pointer-events: auto; }
   .modal-panel {
     width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto;
     border-radius: 16px; background: var(--surface); border: 1px solid var(--border-2);
-    box-shadow: var(--shadow-lg); transform: scale(.96) translateY(10px); opacity: 0;
-    transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .25s ease;
+    box-shadow: var(--shadow-lg); transform: scale(.94) translateY(18px); opacity: 0;
+    transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .4s ease;
   }
   .modal-backdrop.open .modal-panel { transform: scale(1) translateY(0); opacity: 1; }
 
@@ -403,7 +389,7 @@
     background: var(--surface); border: 1px solid var(--border-2);
     box-shadow: var(--shadow-lg); font-size: .82rem; font-weight: 600; color: var(--text);
     transform: translateY(160%); opacity: 0; pointer-events: none;
-    transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .28s ease;
+    transition: transform .6s cubic-bezier(.22,1,.36,1), opacity .4s ease;
   }
   .toast.show { transform: translateY(0); opacity: 1; }
   .toast svg { width: 17px; height: 17px; flex-shrink: 0; stroke-width: 2.4; }
@@ -424,6 +410,7 @@
       flex: 1; flex-direction: column; justify-content: center;
       gap: .15rem; padding: .5rem .35rem; font-size: .62rem; text-align: center;
     }
+    .nav-item:hover { transform: none; }
     .nav-item .num { display: none; }
     .main { padding-bottom: 78px; }
     .toast { bottom: 5.4rem; left: 1rem; right: 1rem; }
@@ -592,12 +579,13 @@
               <div class="chip-icon"><i data-lucide="line-chart"></i></div>
               <div>
                 <h2 class="text-[.95rem] font-bold m-0">Pergerakan Nilai</h2>
-                <p class="text-[.72rem] m-0 mt-0.5" style="color:var(--muted)">Kumulatif — cubit, geser, atau gunakan tombol zoom</p>
+                <p class="text-[.72rem] m-0 mt-0.5" style="color:var(--muted)">Kumulatif — geser untuk menjelajah, zoom lewat tombol + / −</p>
               </div>
             </div>
             <div class="chart-tools">
-              <button id="zoom-out" class="icon-btn" title="Zoom Out" aria-label="Zoom Out"><i data-lucide="zoom-out"></i></button>
-              <button id="zoom-in" class="icon-btn" title="Zoom In" aria-label="Zoom In"><i data-lucide="zoom-in"></i></button>
+              <span class="zoom-badge" id="zoom-badge" title="Level zoom">1×</span>
+              <button id="zoom-out" class="icon-btn" title="Zoom Out (−)" aria-label="Zoom Out"><i data-lucide="minus"></i></button>
+              <button id="zoom-in" class="icon-btn" title="Zoom In (+)" aria-label="Zoom In"><i data-lucide="plus"></i></button>
               <button id="zoom-reset" class="icon-btn" title="Reset Zoom" aria-label="Reset Zoom"><i data-lucide="maximize-2"></i></button>
               <span class="divider"></span>
               <select id="chartType" class="field" style="width:auto;padding:.45rem .7rem;font-size:.78rem">
@@ -606,11 +594,10 @@
               </select>
             </div>
           </div>
-          <div class="chart-shell" id="chart-shell">
+          <div class="chart-shell" id="chart-shell" tabindex="0" aria-label="Grafik pergerakan nilai. Gunakan tombol panah untuk menggeser, plus dan minus untuk zoom.">
             <canvas id="momentumChart"></canvas>
-            <span class="chart-hint" id="chart-hint">Scroll / Cubit untuk Zoom · Geser untuk Pan</span>
+            <span class="chart-hint" id="chart-hint">Geser untuk Pan · Zoom pakai tombol + / −</span>
           </div>
-          <!-- Scrollbar horizontal chart -->
           <div class="chart-scrollbar" id="chart-scrollbar" aria-hidden="true">
             <div class="chart-scrollbar-track" id="chart-scrollbar-track">
               <div class="chart-scrollbar-thumb" id="chart-scrollbar-thumb"></div>
@@ -671,6 +658,7 @@
    ========================================================= */
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTJAafqx8JZznA0blbkTEVCuoP-3G-rOU_rXWRMs1J3a9h6JPrJ37vMUyBO0uRAEgP/exec';
 const SHEET_NAME = 'Data_Logs'; // hanya untuk referensi; tidak dipakai di frontend
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* =========================================================
    HELPER
@@ -679,6 +667,7 @@ const DAYS   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
 function $(id) { return document.getElementById(id); }
+function clamp(v, a, b) { return Math.min(Math.max(v, a), b); }
 function escapeHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
@@ -900,12 +889,58 @@ let lastNetValue = 0;
 let hintHidden = false;
 
 /* =========================================================
+   SMOOTH PAGE SCROLL (roda mouse meluncur halus)
+   Trackpad / layar sentuh tetap memakai scroll bawaan browser
+   yang sudah halus.
+   ========================================================= */
+const SmoothPage = (() => {
+  if (REDUCED) return { sync() {} };
+  let target = window.scrollY, current = target, raf = null, last = 0;
+  const maxY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+  function frame(now) {
+    raf = null;
+    const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+    last = now;
+    current += (target - current) * (1 - Math.exp(-dt * 8));
+    if (Math.abs(target - current) < 0.3) current = target;
+    window.scrollTo({ top: current, left: 0, behavior: 'instant' });
+    if (current !== target) raf = requestAnimationFrame(frame);
+  }
+  function sync() { target = current = window.scrollY; }
+
+  window.addEventListener('wheel', (e) => {
+    if (e.defaultPrevented || e.ctrlKey || e.metaKey) return;
+    if (document.body.style.overflow === 'hidden') return;           // modal terbuka
+    if (e.target.closest && e.target.closest('textarea, select')) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    const mouseLike = e.deltaMode === 1 || (Math.abs(e.deltaY) >= 50 && Number.isInteger(e.deltaY));
+    if (!mouseLike) return;
+    e.preventDefault();
+    if (!raf) sync();
+    const dy = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaY;
+    target = clamp(target + dy, 0, maxY());
+    if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+  }, { passive: false });
+
+  window.addEventListener('scroll', () => {
+    if (raf) {
+      if (Math.abs(window.scrollY - current) > 2) { cancelAnimationFrame(raf); raf = null; sync(); }
+    } else {
+      sync();
+    }
+  }, { passive: true });
+
+  return { sync };
+})();
+
+/* =========================================================
    TEMA
    ========================================================= */
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   try { localStorage.setItem('gin-theme', theme); } catch (e) {}
-  if (chartBuilt) buildChart();
+  if (chartBuilt && !$('view-journey').classList.contains('hidden')) buildChart();
 }
 $('theme-toggle').addEventListener('click', () => {
   const current = document.documentElement.getAttribute('data-theme');
@@ -932,7 +967,7 @@ function switchView(name) {
     maybeBuildChart();
     requestAnimationFrame(() => setTimeout(() => {
       if (momentumChart) momentumChart.resize();
-      _sbScheduleSync();
+      syncScrollbar();
     }, 60));
   }
 }
@@ -1084,10 +1119,10 @@ function updateNetPanel(value, pct) {
   refreshIcons();
 
   const from = lastNetValue, to = value;
-  const start = performance.now(), dur = 800;
+  const start = performance.now(), dur = 1000;
   function frame(now) {
     const p = Math.min((now - start) / dur, 1);
-    const eased = 1 - Math.pow(1 - p, 3);
+    const eased = 1 - Math.pow(1 - p, 4);
     valEl.textContent = fmtScore(Math.round(from + (to - from) * eased));
     if (p < 1) requestAnimationFrame(frame);
   }
@@ -1148,7 +1183,7 @@ function renderLogs(animate = false) {
       : (log.delta_pct > 0 ? 'var(--pos)' : 'var(--neg)');
     const deltaIcon = Math.abs(log.delta_pct) < 0.05 ? 'minus'
       : (log.delta_pct > 0 ? 'arrow-up-right' : 'arrow-down-right');
-    const delay = animate ? Math.min(idx * 40, 420) : 0;
+    const delay = animate ? Math.min(idx * 45, 480) : 0;
     const animStyle = animate ? `animation-delay:${delay}ms` : 'animation:none';
     const fuzzyChip = item.fuzzy
       ? `<span class="chip chip-fuzzy">≈ ${Math.round(item.score * 100)}%</span>` : '';
@@ -1212,12 +1247,195 @@ $('clear-search').addEventListener('click', () => {
 });
 
 /* =========================================================
-   CHART — Kumulatif + Zoom & Pan
+   CHART — MESIN GERAK (viewport sendiri)
+   ---------------------------------------------------------
+   • Zoom HANYA lewat tombol + / − (atau tombol keyboard + / −).
+     Tidak ada zoom dengan scroll kursor maupun cubit.
+   • Posisi tampilan (c = titik tengah, w = lebar, dalam pecahan
+     0..1 dari seluruh data) selalu mengejar target secara
+     eksponensial → gerak meluncur, tidak patah-patah.
+   • Geser: ikuti jari/kursor + inersia (meluncur setelah dilepas)
+     + efek karet di tepi.
+   • Sumbu Y menyesuaikan data yang terlihat secara halus.
    ========================================================= */
 const chartSelect = $('chartType');
 const chartShell  = $('chart-shell');
 const chartHint   = $('chart-hint');
 
+const FRICTION   = 2.8;   // makin kecil → makin jauh meluncur
+const MIN_VISIBLE = 4;    // zoom maksimum: sisa 4 titik terlihat
+const ZOOM_STEP  = 1.7;   // pengali per klik tombol
+
+const CH = { type: 'line', N: 0, lineY: [], barLo: [], barHi: [], lo: 0, hi: 1, len: 1, pointR: 3.5 };
+const VP = {
+  c: .5, w: 1,          // tampilan saat ini (dirender)
+  tc: .5, tw: 1,        // target
+  v: 0,                 // kecepatan inersia (pecahan data / detik)
+  k: 9,                 // kekuatan "tarikan" menuju target
+  dragging: false,
+  yMin: -1, yMax: 1, tyMin: -1, tyMax: 1,
+  n: -1, raf: null, last: 0,
+  ax0: NaN, ax1: NaN, ay0: NaN, ay1: NaN, ar: NaN
+};
+
+function prepareChartData(type) {
+  const N = allLogs.length;
+  CH.type = type; CH.N = N;
+  CH.lineY = [0, ...allLogs.map(l => l.net_score)];
+  CH.barLo = allLogs.map((l, i) => Math.min(i ? allLogs[i - 1].net_score : 0, l.net_score));
+  CH.barHi = allLogs.map((l, i) => Math.max(i ? allLogs[i - 1].net_score : 0, l.net_score));
+  if (type === 'line') { CH.lo = 0;    CH.hi = N;       }
+  else                 { CH.lo = -0.5; CH.hi = N - 0.5; }
+  CH.len = Math.max(N, 1);
+}
+function minW() { return Math.min(1, MIN_VISIBLE / CH.len); }
+function clampT() {
+  VP.tw = clamp(VP.tw, minW(), 1);
+  VP.tc = clamp(VP.tc, VP.tw / 2, 1 - VP.tw / 2);
+}
+function rubber(raw, w) {
+  const lo = w / 2, hi = 1 - w / 2;
+  if (raw < lo) return lo - (lo - raw) * 0.32;
+  if (raw > hi) return hi + (raw - hi) * 0.32;
+  return raw;
+}
+function windowX(c = VP.c, w = VP.w) {
+  return { min: CH.lo + (c - w / 2) * CH.len, max: CH.lo + (c + w / 2) * CH.len };
+}
+function plotWidth() {
+  if (!momentumChart) return 600;
+  const a = momentumChart.chartArea;
+  return a ? Math.max(a.right - a.left, 50) : 600;
+}
+
+/* Rentang Y yang pas untuk bagian data yang terlihat */
+function yRangeFor(xa, xb) {
+  let mn = Infinity, mx = -Infinity;
+  const inc = (v) => { if (v < mn) mn = v; if (v > mx) mx = v; };
+  if (CH.type === 'line') {
+    const ys = CH.lineY, last = ys.length - 1;
+    const edgeY = (x) => {
+      const xi = clamp(x, 0, last);
+      const i = Math.floor(xi), t = xi - i;
+      const y0 = ys[i], y1 = ys[Math.min(i + 1, last)];
+      return y0 + (y1 - y0) * t;
+    };
+    inc(edgeY(xa)); inc(edgeY(xb));
+    for (let i = Math.max(0, Math.ceil(xa)); i <= Math.min(last, Math.floor(xb)); i++) inc(ys[i]);
+  } else {
+    for (let i = Math.max(0, Math.floor(xa - 0.5)); i <= Math.min(CH.N - 1, Math.ceil(xb + 0.5)); i++) {
+      inc(CH.barLo[i]); inc(CH.barHi[i]);
+    }
+  }
+  if (!Number.isFinite(mn) || !Number.isFinite(mx)) return [-1, 1];
+  const pad = Math.max((mx - mn) * 0.14, 2);
+  return [mn - pad, mx + pad];
+}
+
+function ensureLoop() {
+  if (VP.raf) return;
+  VP.last = performance.now();
+  VP.raf = requestAnimationFrame(tick);
+}
+
+function tick(now) {
+  VP.raf = null;
+  if (!momentumChart) return;
+  const dt = Math.min(0.05, (now - VP.last) / 1000 || 0.016);
+  VP.last = now;
+
+  /* inersia: target ikut meluncur lalu melambat pelan-pelan */
+  if (!VP.dragging && VP.v !== 0) {
+    VP.tc += VP.v * dt;
+    VP.v *= Math.exp(-dt * FRICTION);
+    const lo = VP.tw / 2, hi = 1 - VP.tw / 2;
+    if (VP.tc <= lo)      { VP.tc = lo; VP.v = 0; }
+    else if (VP.tc >= hi) { VP.tc = hi; VP.v = 0; }
+    if (Math.abs(VP.v) < 2e-4) VP.v = 0;
+  }
+
+  /* tampilan mengejar target (posisi & log-lebar → zoom terasa rata) */
+  const k = REDUCED ? 60 : VP.k;
+  const a = 1 - Math.exp(-dt * k);
+  VP.c += (VP.tc - VP.c) * a;
+  const lw = Math.log(VP.w), ltw = Math.log(VP.tw);
+  VP.w = Math.exp(lw + (ltw - lw) * a);
+
+  /* sumbu Y mengejar rentang data yang terlihat */
+  const win = windowX();
+  const [ty0, ty1] = yRangeFor(win.min, win.max);
+  VP.tyMin = ty0; VP.tyMax = ty1;
+  const ay = 1 - Math.exp(-dt * (REDUCED ? 60 : 6.5));
+  VP.yMin += (VP.tyMin - VP.yMin) * ay;
+  VP.yMax += (VP.tyMax - VP.yMax) * ay;
+
+  /* sudah tenang? → kunci ke target dan berhenti */
+  const ySpan = Math.max(VP.tyMax - VP.tyMin, 1);
+  const moving =
+    VP.v !== 0 ||
+    Math.abs(VP.tc - VP.c) / VP.w > 4e-5 ||
+    Math.abs(ltw - Math.log(VP.w)) > 1e-4 ||
+    (Math.abs(VP.tyMin - VP.yMin) + Math.abs(VP.tyMax - VP.yMax)) / ySpan > 2e-4;
+
+  if (!moving) {
+    VP.c = VP.tc; VP.w = VP.tw;
+    VP.yMin = VP.tyMin; VP.yMax = VP.tyMax;
+  }
+
+  applyToChart();
+  syncScrollbar();
+  updateZoomUI();
+
+  if (moving) VP.raf = requestAnimationFrame(tick);
+}
+
+function applyToChart() {
+  if (!momentumChart) return;
+  const win = windowX();
+  const visible = VP.w * CH.len;
+  CH.pointR = clamp(3.5 * (1 - (visible - 40) / 50), 0, 3.5);
+
+  if (win.min === VP.ax0 && win.max === VP.ax1 &&
+      VP.yMin === VP.ay0 && VP.yMax === VP.ay1 && CH.pointR === VP.ar) return;
+  VP.ax0 = win.min; VP.ax1 = win.max; VP.ay0 = VP.yMin; VP.ay1 = VP.yMax; VP.ar = CH.pointR;
+
+  const sx = momentumChart.options.scales.x;
+  const sy = momentumChart.options.scales.y;
+  sx.min = win.min; sx.max = win.max;
+  sy.min = VP.yMin; sy.max = VP.yMax;
+  momentumChart.update('none');
+}
+
+function updateZoomUI() {
+  const z = 1 / VP.w;
+  const txt = (z >= 10 ? Math.round(z) : (Math.round(z * 10) / 10)) + '×';
+  const badge = $('zoom-badge');
+  if (badge.textContent !== txt) badge.textContent = txt;
+  $('zoom-in').disabled  = VP.tw <= minW() + 1e-6;
+  $('zoom-out').disabled = VP.tw >= 1 - 1e-6;
+}
+
+/* ---------- Zoom manual (tombol) ---------- */
+function zoomBy(factor) {
+  if (!momentumChart) return;
+  VP.v = 0;
+  VP.k = 8;
+  VP.tw = VP.tw / factor;
+  clampT();
+  ensureLoop();
+  updateZoomUI();
+}
+function resetView() {
+  if (!momentumChart) return;
+  VP.v = 0; VP.k = 8;
+  VP.tw = 1; VP.tc = .5;
+  ensureLoop();
+}
+$('zoom-in').addEventListener('click',  () => zoomBy(ZOOM_STEP));
+$('zoom-out').addEventListener('click', () => zoomBy(1 / ZOOM_STEP));
+$('zoom-reset').addEventListener('click', resetView);
+
+/* ---------- Bangun chart ---------- */
 function maybeBuildChart() {
   const journeyVisible = !$('view-journey').classList.contains('hidden');
   if (journeyVisible && allLogs.length) {
@@ -1230,9 +1448,20 @@ function buildChart() {
   const canvas = $('momentumChart');
   if (!canvas) return;
   if (momentumChart) { momentumChart.destroy(); momentumChart = null; }
+  if (VP.raf) { cancelAnimationFrame(VP.raf); VP.raf = null; }
   if (!allLogs.length) return;
 
   const type = chartSelect.value;
+  prepareChartData(type);
+
+  if (VP.n !== allLogs.length) { VP.tc = .5; VP.tw = 1; VP.v = 0; VP.n = allLogs.length; }
+  clampT();
+  VP.c = VP.tc; VP.w = VP.tw; VP.v = 0;
+  const win0 = windowX();
+  const [y0, y1] = yRangeFor(win0.min, win0.max);
+  VP.yMin = VP.tyMin = y0; VP.yMax = VP.tyMax = y1;
+  VP.ax0 = VP.ax1 = VP.ay0 = VP.ay1 = VP.ar = NaN;
+
   const accent    = cssVar('--accent');
   const pos       = cssVar('--pos');
   const neg       = cssVar('--neg');
@@ -1242,100 +1471,113 @@ function buildChart() {
   const textColor = cssVar('--text');
   const border2   = cssVar('--border-2');
 
-  const titles    = allLogs.map(log => [log.title, fmtShort(log._dateObj)]);
-  const netValues = allLogs.map(log => log.net_score);
-  const barStart  = allLogs.map((_, i) => (i === 0 ? 0 : netValues[i - 1]));
-  const barEnd    = netValues.slice();
-  const lineLabels = ['Awal', ...titles];
-  const lineValues = [0, ...netValues];
-
-  let labels, dataset;
+  const lineY = CH.lineY;
+  let dataset;
   if (type === 'line') {
-    labels = lineLabels;
     dataset = {
-      label: 'Net Value', data: lineValues,
-      borderWidth: 2.5, tension: 0.32,
-      pointRadius: 3.5, pointHoverRadius: 7, pointBorderWidth: 2, pointBorderColor: surface,
+      label: 'Net Value',
+      data: lineY.map((y, i) => ({ x: i, y })),
+      borderWidth: 2.5, cubicInterpolationMode: 'monotone',
+      pointRadius: () => CH.pointR, pointHoverRadius: 6.5, pointBorderWidth: 2, pointBorderColor: surface,
       segment: {
         borderColor: (ctx) => {
-          const y0 = ctx.p0.parsed.y, y1 = ctx.p1.parsed.y;
-          if (y1 > y0) return pos; if (y1 < y0) return neg; return accent;
+          const a = ctx.p0.parsed.y, b = ctx.p1.parsed.y;
+          if (b > a) return pos; if (b < a) return neg; return accent;
         }
       },
       pointBackgroundColor: (ctx) => {
         const i = ctx.dataIndex;
         if (i === 0) return muted;
-        const prev = lineValues[i - 1], curr = lineValues[i];
+        const prev = lineY[i - 1], curr = lineY[i];
         if (curr > prev) return pos; if (curr < prev) return neg; return accent;
       },
       fill: { target: 'origin', above: hexToRgba(accent, 0.06) },
       borderCapStyle: 'round', borderJoinStyle: 'round'
     };
   } else {
-    labels = titles;
-    const barData = barEnd.map((end, i) => [Math.min(barStart[i], end), Math.max(barStart[i], end)]);
+    const ends = allLogs.map(l => l.net_score);
+    const starts = allLogs.map((_, i) => (i === 0 ? 0 : ends[i - 1]));
     dataset = {
-      label: 'Net Value', data: barData,
-      backgroundColor: barEnd.map((end, i) => {
-        const start = barStart[i];
-        if (end > start) return hexToRgba(pos, 0.7);
-        if (end < start) return hexToRgba(neg, 0.7);
+      label: 'Net Value',
+      data: CH.barLo.map((lo, i) => ({ x: i, y: [lo, CH.barHi[i]] })),
+      backgroundColor: ends.map((end, i) => {
+        if (end > starts[i]) return hexToRgba(pos, 0.72);
+        if (end < starts[i]) return hexToRgba(neg, 0.72);
         return hexToRgba(accent, 0.55);
       }),
-      borderColor: barEnd.map((end, i) => {
-        const start = barStart[i];
-        if (end > start) return pos;
-        if (end < start) return neg;
-        return accent;
-      }),
-      borderWidth: 0, borderRadius: 0, borderSkipped: false,
-      categoryPercentage: 1.0, barPercentage: 1.0
+      borderColor: ends.map((end, i) => (end > starts[i] ? pos : end < starts[i] ? neg : accent)),
+      borderWidth: 0, borderRadius: 3, borderSkipped: false,
+      categoryPercentage: 1.0, barPercentage: 0.88
     };
   }
 
-  const minRange = Math.min(Math.max(2, Math.ceil(allLogs.length * 0.15)), allLogs.length);
+  const tickLabel = (v) => {
+    if (!Number.isInteger(v)) return '';
+    if (type === 'line') {
+      if (v === 0) return 'Awal';
+      const log = allLogs[v - 1];
+      if (!log) return '';
+      const t = log.title.length > 15 ? log.title.slice(0, 14) + '…' : log.title;
+      return [t, fmtShort(log._dateObj)];
+    }
+    const log = allLogs[v];
+    if (!log) return '';
+    const t = log.title.length > 15 ? log.title.slice(0, 14) + '…' : log.title;
+    return [t, fmtShort(log._dateObj)];
+  };
 
   momentumChart = new Chart(canvas.getContext('2d'), {
     type: type,
-    data: { labels, datasets: [dataset] },
+    data: { datasets: [dataset] },
     options: {
       responsive: true, maintainAspectRatio: false,
       animation: { duration: 700, easing: 'easeOutQuart' },
-      interaction: { mode: 'index', intersect: false },
-      bar: { categoryPercentage: 1.0, barPercentage: 1.0 },
+      transitions: { active: { animation: { duration: 160 } } },
+      interaction: { mode: 'nearest', axis: 'x', intersect: false },
+      layout: { padding: { left: 4, right: 18, top: 6 } },
       scales: {
         y: {
-          grid: { color: grid, drawBorder: false },
+          min: VP.yMin, max: VP.yMax,
+          grid: { color: grid }, border: { display: false },
           ticks: { color: muted, font: { size: 11, weight: '500' }, padding: 8, callback: (v) => fmtScore(v) }
         },
         x: {
-          grid: { display: false },
-          ticks: { color: muted, font: { size: 10, weight: '500' }, maxRotation: 0, autoSkipPadding: 20 }
+          type: 'linear',
+          min: win0.min, max: win0.max,
+          offset: false,
+          grid: { display: false, offset: false },
+          border: { display: false },
+          ticks: {
+            color: muted, font: { size: 10, weight: '500' },
+            maxRotation: 0, autoSkip: false, padding: 8,
+            callback: tickLabel
+          },
+          afterBuildTicks: (scale) => {
+            const w = scale.maxWidth || scale.width || 600;
+            const maxTicks = Math.max(2, Math.floor(w / 100));
+            const range = scale.max - scale.min;
+            const raw = range / maxTicks;
+            const steps = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
+            const step = steps.find(s => s >= raw) || 5000;
+            const idxLo = type === 'line' ? 0 : 0;
+            const idxHi = type === 'line' ? CH.N : CH.N - 1;
+            const first = Math.ceil(scale.min / step - 1e-9) * step;
+            const out = [];
+            for (let v = first; v <= scale.max + 1e-9; v += step) {
+              if (v >= idxLo && v <= idxHi) out.push({ value: v });
+            }
+            scale.ticks = out;
+          }
         }
       },
       plugins: {
         legend: { display: false },
-        zoom: {
-          limits: {
-            x: { minRange: minRange },
-            y: { min: 'original', max: 'original' }
-          },
-          pan: { enabled: true, mode: 'x', modifierKey: null, threshold: 6 },
-          zoom: {
-            wheel: { enabled: true, speed: 0.12, modifierKey: null },
-            pinch: { enabled: true },
-            drag:  { enabled: false },
-            mode: 'x'
-          },
-          onZoom:         () => _sbScheduleSync(),
-          onZoomComplete: () => _sbScheduleSync(),
-          onPan:          () => _sbScheduleSync(),
-          onPanComplete:  () => _sbScheduleSync()
-        },
         tooltip: {
+          enabled: true,
           backgroundColor: surface, titleColor: textColor, bodyColor: textColor,
           borderColor: border2, borderWidth: 1, padding: 12, cornerRadius: 10,
           displayColors: false,
+          animation: { duration: 160 },
           titleFont: { size: 12, weight: '700' },
           bodyFont: { size: 12, weight: '600' },
           callbacks: {
@@ -1353,15 +1595,14 @@ function buildChart() {
               if (type === 'line') {
                 if (i === 0) return 'Net: 0';
                 const log  = allLogs[i - 1];
-                const prev = lineValues[i - 1], curr = lineValues[i];
-                const pct  = calcPct(curr, prev);
-                return ['Net: ' + fmtScore(curr), 'Perubahan: ' + fmtScore(log.input_score) + '  ·  ' + fmtPct(pct)];
+                const prev = lineY[i - 1], curr = lineY[i];
+                return ['Net: ' + fmtScore(curr),
+                        'Perubahan: ' + fmtScore(log.input_score) + '  ·  ' + fmtPct(calcPct(curr, prev))];
               }
               const log = allLogs[i];
-              const start = barStart[i], end = barEnd[i];
-              const pct = calcPct(end, start);
+              const start = i === 0 ? 0 : allLogs[i - 1].net_score, end = log.net_score;
               return ['Dari ' + fmtScore(start) + '  →  ' + fmtScore(end),
-                      'Perubahan: ' + fmtScore(log.input_score) + '  ·  ' + fmtPct(pct)];
+                      'Perubahan: ' + fmtScore(log.input_score) + '  ·  ' + fmtPct(calcPct(end, start))];
             }
           }
         }
@@ -1369,32 +1610,114 @@ function buildChart() {
     }
   });
 
-  // Sinkronkan scrollbar setelah chart dibuat
-  _sbScheduleSync();
+  syncScrollbar();
+  updateZoomUI();
 }
 
 chartSelect.addEventListener('change', () => { if (chartBuilt) buildChart(); });
 
 /* =========================================================
-   ZOOM BUTTONS
+   GESER (PAN) — mengikuti jari/kursor, lalu meluncur
    ========================================================= */
-$('zoom-in').addEventListener('click', () => {
+let drag = null;
+
+function setTooltipEnabled(on) {
   if (!momentumChart) return;
-  momentumChart.zoom(1.25);
-  _sbScheduleSync();
-  setTimeout(_sbScheduleSync, 750);
+  momentumChart.options.plugins.tooltip.enabled = on;
+  if (!on) { try { momentumChart.setActiveElements([]); } catch (e) {} }
+}
+
+chartShell.addEventListener('pointerdown', (e) => {
+  if (!momentumChart) return;
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  if (VP.v !== 0) { VP.v = 0; VP.tc = VP.c; }          // "tangkap" ombak yang sedang meluncur
+  drag = { id: e.pointerId, x0: e.clientX, startRaw: VP.tc, raw: VP.tc, active: false, samples: [] };
 });
-$('zoom-out').addEventListener('click', () => {
-  if (!momentumChart) return;
-  momentumChart.zoom(0.8);
-  _sbScheduleSync();
-  setTimeout(_sbScheduleSync, 750);
+
+chartShell.addEventListener('pointermove', (e) => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const dxPx = e.clientX - drag.x0;
+  if (!drag.active) {
+    if (Math.abs(dxPx) < 4) return;
+    drag.active = true;
+    drag.x0 = e.clientX; drag.startRaw = VP.tc;
+    VP.dragging = true; VP.v = 0; VP.k = 24;
+    try { chartShell.setPointerCapture(e.pointerId); } catch (err) {}
+    chartShell.classList.add('grabbing');
+    setTooltipEnabled(false);
+    hideChartHint();
+    drag.samples.length = 0;
+    drag.raw = VP.tc;
+  } else {
+    drag.raw = drag.startRaw - ((e.clientX - drag.x0) / plotWidth()) * VP.tw;
+  }
+  const now = performance.now();
+  drag.samples.push({ t: now, c: drag.raw });
+  while (drag.samples.length && now - drag.samples[0].t > 140) drag.samples.shift();
+  VP.tc = rubber(drag.raw, VP.tw);
+  ensureLoop();
 });
-$('zoom-reset').addEventListener('click', () => {
+
+function endDrag(e, cancelled) {
+  if (!drag || (e && e.pointerId !== drag.id)) return;
+  const d = drag; drag = null;
+  if (!d.active) return;
+  try { chartShell.releasePointerCapture(d.id); } catch (err) {}
+  chartShell.classList.remove('grabbing');
+
+  let v = 0;
+  const now = performance.now();
+  const s = d.samples.filter(p => now - p.t <= 110);
+  if (!cancelled && s.length >= 2 && now - s[s.length - 1].t < 80) {
+    const f = s[0], l = s[s.length - 1];
+    const dtm = (l.t - f.t) / 1000;
+    if (dtm > 0.012) v = (l.c - f.c) / dtm;
+  }
+  const lo = VP.tw / 2, hi = 1 - VP.tw / 2;
+  if (d.raw < lo || d.raw > hi) v = 0;                 // sedang melewati tepi → balik pelan (efek karet)
+  v = clamp(v, -6 * VP.tw, 6 * VP.tw);
+
+  VP.dragging = false;
+  VP.k = 13;
+  VP.v = v;
+  clampT();
+  setTooltipEnabled(true);
+  ensureLoop();
+}
+chartShell.addEventListener('pointerup',     (e) => endDrag(e, false));
+chartShell.addEventListener('pointercancel', (e) => endDrag(e, true));
+
+/* Scroll horizontal (trackpad / shift+roda) menggeser grafik.
+   Scroll vertikal tetap menggulung halaman. Tidak ada zoom lewat scroll. */
+chartShell.addEventListener('wheel', (e) => {
+  if (e.ctrlKey || e.metaKey) return;                  // jangan ubah apa pun (zoom hanya tombol)
+  const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+  if (!horizontal && !e.shiftKey) return;              // biarkan halaman scroll biasa
+  let dx = horizontal ? e.deltaX : e.deltaY;
+  if (!dx || !momentumChart) return;
+  e.preventDefault();
+  if (e.deltaMode === 1) dx *= 32;
+  hideChartHint();
+  VP.v = 0; VP.k = 13;
+  VP.tc += (dx / plotWidth()) * VP.tw;
+  clampT();
+  ensureLoop();
+}, { passive: false });
+
+/* Keyboard: ← → geser, Home/End ke ujung, + / − zoom */
+chartShell.addEventListener('keydown', (e) => {
   if (!momentumChart) return;
-  momentumChart.resetZoom();
-  _sbScheduleSync();
-  setTimeout(_sbScheduleSync, 750);
+  let handled = true;
+  switch (e.key) {
+    case 'ArrowLeft':  VP.v = 0; VP.k = 9; VP.tc -= VP.tw * 0.35; clampT(); ensureLoop(); break;
+    case 'ArrowRight': VP.v = 0; VP.k = 9; VP.tc += VP.tw * 0.35; clampT(); ensureLoop(); break;
+    case 'Home':       VP.v = 0; VP.k = 8; VP.tc = 0; clampT(); ensureLoop(); break;
+    case 'End':        VP.v = 0; VP.k = 8; VP.tc = 1; clampT(); ensureLoop(); break;
+    case '+': case '=': zoomBy(ZOOM_STEP); break;
+    case '-': case '_': zoomBy(1 / ZOOM_STEP); break;
+    default: handled = false;
+  }
+  if (handled) e.preventDefault();
 });
 
 /* =========================================================
@@ -1405,129 +1728,77 @@ function hideChartHint() {
   hintHidden = true;
   if (chartHint) chartHint.style.opacity = '0';
 }
-['wheel', 'touchstart', 'mousedown'].forEach(evt => {
+['touchstart', 'mousedown'].forEach(evt => {
   chartShell.addEventListener(evt, hideChartHint, { passive: true });
 });
 
 /* =========================================================
-   CHART SCROLLBAR — slider horizontal untuk pan chart
+   CHART SCROLLBAR — slider horizontal (ikut meluncur)
    ========================================================= */
-const scrollbarEl    = document.getElementById('chart-scrollbar');
-const scrollbarTrack = document.getElementById('chart-scrollbar-track');
-const scrollbarThumb = document.getElementById('chart-scrollbar-thumb');
+const scrollbarEl    = $('chart-scrollbar');
+const scrollbarTrack = $('chart-scrollbar-track');
+const scrollbarThumb = $('chart-scrollbar-thumb');
+let sbDrag = null;
 
-let _sbDragState = null;
-let _sbRaf = null;
-
-function _sbVisibleRange() {
-  if (!momentumChart || !momentumChart.scales || !momentumChart.scales.x) return null;
-  const x = momentumChart.scales.x;
-  const total = (momentumChart.data.labels || []).length;
-  if (!total) return null;
-  let min = Number(x.min), max = Number(x.max);
-  if (!Number.isFinite(min)) min = 0;
-  if (!Number.isFinite(max)) max = total - 1;
-  min = Math.max(0, Math.min(min, total - 1));
-  max = Math.max(min, Math.min(max, total - 1));
-  return { min, max, total };
-}
-
-function _sbScheduleSync() {
-  if (_sbRaf) return;
-  _sbRaf = requestAnimationFrame(() => {
-    _sbRaf = null;
-    syncScrollbar();
-  });
+function sbMetrics() {
+  const trackW = scrollbarTrack.clientWidth || 1;
+  const thumbW = Math.min(Math.max(VP.w * trackW, 44), trackW);
+  return { trackW, thumbW, free: Math.max(trackW - thumbW, 0) };
 }
 
 function syncScrollbar() {
   if (!scrollbarTrack || !scrollbarThumb) return;
-  const info = _sbVisibleRange();
-  if (!info) {
-    scrollbarThumb.style.width = '100%';
-    scrollbarThumb.style.transform = 'translateX(0)';
+  const { thumbW, free } = sbMetrics();
+  const a = VP.c - VP.w / 2;
+  const denom = 1 - VP.w;
+  const pos = denom > 1e-6 ? clamp(a / denom, 0, 1) * free : 0;
+  scrollbarThumb.style.width = thumbW + 'px';
+  scrollbarThumb.style.transform = `translateX(${pos}px)`;
+  scrollbarEl.classList.toggle('scrollbar-idle', VP.w >= 0.995);
+}
+
+scrollbarTrack.addEventListener('pointerdown', (e) => {
+  if (!momentumChart || VP.tw >= 0.995) return;
+  const { free } = sbMetrics();
+  const onThumb = (e.target === scrollbarThumb);
+
+  if (!onThumb) {
+    // klik track → meluncur ke posisi itu
+    const rect = scrollbarTrack.getBoundingClientRect();
+    const { thumbW } = sbMetrics();
+    const pos = clamp(e.clientX - rect.left - thumbW / 2, 0, free);
+    const a = free > 0 ? (pos / free) * (1 - VP.tw) : 0;
+    VP.v = 0; VP.k = 8;
+    VP.tc = a + VP.tw / 2;
+    clampT(); ensureLoop();
     return;
   }
-  const { min, max, total } = info;
-  const totalRange = Math.max(total - 1, 1);
-  const visibleRange = Math.max(max - min, 0);
-  const widthRatio = Math.min(Math.max(visibleRange / totalRange, 0.06), 1);
-  const leftRatio  = Math.min(Math.max(min / totalRange, 0), 1 - widthRatio);
-  const trackW = scrollbarTrack.clientWidth || 1;
-  scrollbarThumb.style.width = (widthRatio * trackW) + 'px';
-  scrollbarThumb.style.transform = `translateX(${leftRatio * trackW}px)`;
-  scrollbarEl.classList.toggle('scrollbar-idle', widthRatio >= 0.995);
-}
 
-function _sbApply(min, max) {
-  if (!momentumChart) return;
-  const info = _sbVisibleRange();
-  if (!info) return;
-  const totalRange = Math.max(info.total - 1, 1);
-  let rMin = min, rMax = max;
-  if (rMin < 0)          { rMax -= rMin; rMin = 0; }
-  if (rMax > totalRange) { rMin -= (rMax - totalRange); rMax = totalRange; }
-  if (rMin < 0) rMin = 0;
-  if (rMax > totalRange) rMax = totalRange;
-  try {
-    momentumChart.zoomScale('x', { min: rMin, max: rMax }, 'none');
-  } catch (e) {}
-  syncScrollbar();
-}
-
-function _sbPointerDown(e) {
-  if (!momentumChart || !scrollbarTrack) return;
-  const info = _sbVisibleRange();
-  if (!info) return;
-
-  const trackRect = scrollbarTrack.getBoundingClientRect();
-  const clickedThumb = (e.target === scrollbarThumb);
-
-  // Klik track → lompat ke posisi itu
-  if (!clickedThumb) {
-    const totalRange = Math.max(info.total - 1, 1);
-    const range = info.max - info.min;
-    const ratio = (e.clientX - trackRect.left) / trackRect.width;
-    const newMin = ratio * totalRange - range / 2;
-    _sbApply(newMin, newMin + range);
-  }
-
-  const cur = _sbVisibleRange();
-  if (!cur) return;
-  _sbDragState = {
-    startX: e.clientX,
-    startMin: cur.min,
-    startMax: cur.max,
-    totalRange: Math.max(cur.total - 1, 1),
-    trackW: trackRect.width,
-    pointerId: e.pointerId
-  };
+  VP.v = 0; VP.k = 22;
+  sbDrag = { id: e.pointerId, x0: e.clientX, a0: VP.tc - VP.tw / 2, free };
   try { scrollbarThumb.setPointerCapture(e.pointerId); } catch (err) {}
   scrollbarThumb.classList.add('dragging');
   e.preventDefault();
   e.stopPropagation();
-}
-
-function _sbPointerMove(e) {
-  if (!_sbDragState || e.pointerId !== _sbDragState.pointerId) return;
-  const dx = e.clientX - _sbDragState.startX;
-  const dxIdx = (dx / _sbDragState.trackW) * _sbDragState.totalRange;
-  _sbApply(_sbDragState.startMin + dxIdx, _sbDragState.startMax + dxIdx);
-}
-
-function _sbPointerUp(e) {
-  if (!_sbDragState) return;
+});
+scrollbarTrack.addEventListener('pointermove', (e) => {
+  if (!sbDrag || e.pointerId !== sbDrag.id) return;
+  const dx = e.clientX - sbDrag.x0;
+  const da = sbDrag.free > 0 ? (dx / sbDrag.free) * (1 - VP.tw) : 0;
+  VP.tc = sbDrag.a0 + da + VP.tw / 2;
+  clampT(); ensureLoop();
+});
+function sbEnd(e) {
+  if (!sbDrag) return;
   scrollbarThumb.classList.remove('dragging');
-  try { scrollbarThumb.releasePointerCapture(_sbDragState.pointerId); } catch (err) {}
-  _sbDragState = null;
+  try { scrollbarThumb.releasePointerCapture(sbDrag.id); } catch (err) {}
+  sbDrag = null;
+  VP.k = 12;
 }
+scrollbarTrack.addEventListener('pointerup', sbEnd);
+scrollbarTrack.addEventListener('pointercancel', sbEnd);
 
-scrollbarTrack.addEventListener('pointerdown', _sbPointerDown);
-scrollbarTrack.addEventListener('pointermove', _sbPointerMove);
-scrollbarTrack.addEventListener('pointerup',   _sbPointerUp);
-scrollbarTrack.addEventListener('pointercancel', _sbPointerUp);
-
-window.addEventListener('resize', _sbScheduleSync);
+window.addEventListener('resize', () => { syncScrollbar(); });
 
 /* =========================================================
    MODAL
