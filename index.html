@@ -10,6 +10,8 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Hammer.js WAJIB untuk pinch-zoom di HP -->
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
@@ -665,7 +667,7 @@
     position: relative;
     width: 100%;
     height: 340px;
-    /* prevents browser scroll while panning chart horizontally */
+    /* izinkan scroll vertikal halaman, tapi chart yang pegang gesture horizontal/pinch */
     touch-action: pan-y;
     user-select: none;
     -webkit-user-select: none;
@@ -686,6 +688,7 @@
     padding: .2rem .55rem;
     pointer-events: none;
     opacity: .9;
+    transition: opacity .3s ease;
   }
 
   /* ============ MODAL ============ */
@@ -772,9 +775,7 @@
   }
 
   @media (max-width: 720px) {
-    .chart-card-header {
-      align-items: stretch;
-    }
+    .chart-card-header { align-items: stretch; }
     .chart-tools {
       width: 100%;
       justify-content: flex-end;
@@ -788,10 +789,7 @@
     .metrics { width: 100%; }
     .metric { flex: 1; text-align: center; }
 
-    /* Header: net panel full width */
-    header > .flex.items-center.gap-2 {
-      width: 100%;
-    }
+    header > .flex.items-center.gap-2 { width: 100%; }
     .net-panel { flex: 1; }
     .net-block {
       flex: 1;
@@ -1092,7 +1090,7 @@
 /* =========================================================
    KONFIGURASI
    ========================================================= */
-const SCRIPT_URL = 'https://app.cirkitdesigner.com/project/32390457-7b05-4db2-a960-c4fbb45de35bhttps://script.google.com/macros/s/AKfycbwTJAafqx8JZznA0blbkTEVCuoP-3G-rOU_rXWRMs1J3a9h6JPrJ37vMUyBO0uRAEgP/exechttps://script.google.com/macros/s/AKfycbwTJAafqx8JZznA0blbkTEVCuoP-3G-rOU_rXWRMs1J3a9h6JPrJ37vMUyBO0uRAEgP/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTJAafqx8JZznA0blbkTEVCuoP-3G-rOU_rXWRMs1J3a9h6JPrJ37vMUyBO0uRAEgP/exec';
 
 /* =========================================================
    HELPER
@@ -1256,7 +1254,7 @@ let searchQuery = '';
 let chartBuilt = false;
 let momentumChart = null;
 let lastNetValue = 0;
-let lastPctValue = 0;
+let hintHidden = false;
 
 /* =========================================================
    TEMA
@@ -1593,12 +1591,12 @@ $('clear-search').addEventListener('click', () => {
 });
 
 /* =========================================================
-   CHART — Kumulatif + Zoom & Pan (Chart.js Zoom Plugin)
+   CHART — Kumulatif + Zoom & Pan (gaya Stockbit)
    ---------------------------------------------------------
-   • Wheel / pinch / cubit = zoom
-   • Drag / geser = pan
-   • Tombol +/-/reset = kontrol manual
-   • Semua terbatas pada sumbu X saja (seperti chart saham)
+   • Wheel / pinch = zoom X
+   • Drag / geser  = pan X
+   • Tombol +/- / reset = kontrol manual
+   • Hammer.js diperlukan untuk pinch di HP
    ========================================================= */
 const chartSelect = $('chartType');
 const chartShell  = $('chart-shell');
@@ -1628,7 +1626,6 @@ function buildChart() {
   const textColor = cssVar('--text');
   const border2   = cssVar('--border-2');
 
-  // ===== DATA KUMULATIF =====
   const titles    = allLogs.map(log => [log.title, fmtShort(log._dateObj)]);
   const netValues = allLogs.map(log => log.net_score);
   const barStart  = allLogs.map((_, i) => (i === 0 ? 0 : netValues[i - 1]));
@@ -1706,7 +1703,7 @@ function buildChart() {
     };
   }
 
-  // ===== MIN RANGE berdasarkan jumlah data =====
+  // minRange: jangan sampai zoom terlalu dalam (minimal 2 titik / 15% data)
   const minRange = Math.min(Math.max(2, Math.ceil(allLogs.length * 0.15)), allLogs.length);
 
   momentumChart = new Chart(canvas.getContext('2d'), {
@@ -1717,10 +1714,7 @@ function buildChart() {
       maintainAspectRatio: false,
       animation: { duration: 700, easing: 'easeOutQuart' },
       interaction: { mode: 'index', intersect: false },
-      bar: {
-        categoryPercentage: 1.0,
-        barPercentage: 1.0
-      },
+      bar: { categoryPercentage: 1.0, barPercentage: 1.0 },
       scales: {
         y: {
           grid: { color: grid, drawBorder: false },
@@ -1754,23 +1748,13 @@ function buildChart() {
             enabled: true,
             mode: 'x',
             modifierKey: null,
-            threshold: 6,
-            onPanComplete: () => {}
+            threshold: 6
           },
           zoom: {
-            wheel: {
-              enabled: true,
-              speed: 0.12,
-              modifierKey: null
-            },
-            pinch: {
-              enabled: true
-            },
-            drag: {
-              enabled: false
-            },
-            mode: 'x',
-            onZoomComplete: () => {}
+            wheel: { enabled: true, speed: 0.12, modifierKey: null },
+            pinch: { enabled: true },
+            drag:  { enabled: false },
+            mode: 'x'
           }
         },
 
@@ -1824,12 +1808,6 @@ function buildChart() {
       }
     }
   });
-
-  // Update tooltip hint: sembunyikan hint setelah user interaksi
-  const hideHint = () => { if (chartHint) chartHint.style.opacity = '0'; };
-  chartShell.addEventListener('wheel', hideHint, { passive: true, once: true });
-  chartShell.addEventListener('touchstart', hideHint, { passive: true, once: true });
-  chartShell.addEventListener('mousedown', hideHint, { once: true });
 }
 
 chartSelect.addEventListener('change', () => {
@@ -1847,6 +1825,18 @@ $('zoom-out').addEventListener('click', () => {
 });
 $('zoom-reset').addEventListener('click', () => {
   if (momentumChart) momentumChart.resetZoom();
+});
+
+/* =========================================================
+   HINT — sembunyikan saat interaksi pertama (sekali saja)
+   ========================================================= */
+function hideChartHint() {
+  if (hintHidden) return;
+  hintHidden = true;
+  if (chartHint) chartHint.style.opacity = '0';
+}
+['wheel', 'touchstart', 'mousedown'].forEach(evt => {
+  chartShell.addEventListener(evt, hideChartHint, { passive: true });
 });
 
 /* =========================================================
