@@ -2,7 +2,7 @@
 <html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Alif — My Journey</title>
 
 <link rel="icon" type="image/png" href="logo.png">
@@ -10,6 +10,7 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
 <script>
@@ -98,6 +99,7 @@
     text-rendering: optimizeLegibility;
     transition: background-color .3s ease, color .3s ease;
     font-feature-settings: 'cv11', 'ss01';
+    overflow-x: hidden;
   }
 
   ::-webkit-scrollbar { width: 9px; height: 9px; }
@@ -406,6 +408,12 @@
     border-color: var(--border-2);
     background: var(--surface-2);
   }
+  .icon-btn:active { transform: scale(.96); }
+  .icon-btn.active {
+    color: var(--accent);
+    border-color: var(--accent-border);
+    background: var(--accent-soft);
+  }
 
   html[data-theme="dark"] .icon-moon { display: none; }
   html[data-theme="light"] .icon-sun { display: none; }
@@ -622,6 +630,64 @@
   .view { animation: fadeUp .35s ease both; }
   .view.hidden { display: none; }
 
+  /* ============ CHART WRAPPER ============ */
+  .chart-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .chart-tools {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    flex-wrap: wrap;
+  }
+
+  .chart-tools .icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+  .chart-tools .icon-btn svg { width: 15px; height: 15px; }
+
+  .chart-tools .divider {
+    width: 1px;
+    height: 22px;
+    background: var(--border);
+    margin: 0 .15rem;
+  }
+
+  .chart-shell {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    /* prevents browser scroll while panning chart horizontally */
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .chart-hint {
+    position: absolute;
+    top: .55rem;
+    right: .65rem;
+    font-size: .58rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: .2rem .55rem;
+    pointer-events: none;
+    opacity: .9;
+  }
+
   /* ============ MODAL ============ */
   .modal-backdrop {
     position: fixed; inset: 0; z-index: 100;
@@ -705,11 +771,48 @@
     .toast { bottom: 5.4rem; left: 1rem; right: 1rem; }
   }
 
+  @media (max-width: 720px) {
+    .chart-card-header {
+      align-items: stretch;
+    }
+    .chart-tools {
+      width: 100%;
+      justify-content: flex-end;
+    }
+    .chart-shell { height: 300px; }
+  }
+
   @media (max-width: 640px) {
     .log-card { flex-direction: column; align-items: stretch; gap: .75rem; }
     .log-title { white-space: normal; }
     .metrics { width: 100%; }
     .metric { flex: 1; text-align: center; }
+
+    /* Header: net panel full width */
+    header > .flex.items-center.gap-2 {
+      width: 100%;
+    }
+    .net-panel { flex: 1; }
+    .net-block {
+      flex: 1;
+      min-width: 0;
+      padding: .5rem .65rem;
+    }
+    .net-label { font-size: .52rem; letter-spacing: .08em; }
+    .net-value { font-size: .88rem; }
+    .net-delta { font-size: .7rem; }
+
+    .chart-shell { height: 260px; }
+    .chart-hint { display: none; }
+  }
+
+  @media (max-width: 420px) {
+    .net-block { padding: .45rem .5rem; }
+    .net-value { font-size: .8rem; }
+    .net-delta { font-size: .66rem; }
+    .net-delta svg { width: 10px; height: 10px; }
+    .chart-tools .icon-btn { width: 32px; height: 32px; }
+    .chart-tools .field { font-size: .72rem; padding: .4rem .55rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -886,22 +989,40 @@
 
         <!-- CHART -->
         <div class="card p-5 md:p-6 animate-in" style="animation-delay:60ms">
-          <div class="flex items-center justify-between gap-4 mb-5 flex-wrap">
+          <div class="chart-card-header">
             <div class="flex items-center gap-3">
               <div class="chip-icon"><i data-lucide="line-chart"></i></div>
               <div>
                 <h2 class="text-[.95rem] font-bold m-0">Pergerakan Nilai</h2>
                 <p class="text-[.72rem] m-0 mt-0.5" style="color:var(--muted)">
-                  Kumulatif — tiap momen lanjut dari nilai sebelumnya
+                  Kumulatif — cubit, geser, atau gunakan tombol zoom
                 </p>
               </div>
             </div>
-            <select id="chartType" class="field" style="width:auto;padding:.45rem .7rem;font-size:.78rem">
-              <option value="line">Grafik Garis</option>
-              <option value="bar">Grafik Batang</option>
-            </select>
+
+            <div class="chart-tools">
+              <button id="zoom-out" class="icon-btn" title="Zoom Out" aria-label="Zoom Out">
+                <i data-lucide="zoom-out"></i>
+              </button>
+              <button id="zoom-in" class="icon-btn" title="Zoom In" aria-label="Zoom In">
+                <i data-lucide="zoom-in"></i>
+              </button>
+              <button id="zoom-reset" class="icon-btn" title="Reset Zoom" aria-label="Reset Zoom">
+                <i data-lucide="maximize-2"></i>
+              </button>
+              <span class="divider"></span>
+              <select id="chartType" class="field"
+                      style="width:auto;padding:.45rem .7rem;font-size:.78rem">
+                <option value="line">Grafik Garis</option>
+                <option value="bar">Grafik Batang</option>
+              </select>
+            </div>
           </div>
-          <div class="w-full" style="height:320px"><canvas id="momentumChart"></canvas></div>
+
+          <div class="chart-shell" id="chart-shell">
+            <canvas id="momentumChart"></canvas>
+            <span class="chart-hint" id="chart-hint">Scroll / Cubit untuk Zoom · Geser untuk Pan</span>
+          </div>
         </div>
 
         <!-- LOGS -->
@@ -971,7 +1092,7 @@
 /* =========================================================
    KONFIGURASI
    ========================================================= */
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTJAafqx8JZznA0blbkTEVCuoP-3G-rOU_rXWRMs1J3a9h6JPrJ37vMUyBO0uRAEgP/exec';
+const SCRIPT_URL = 'https://app.cirkitdesigner.com/project/32390457-7b05-4db2-a960-c4fbb45de35bhttps://script.google.com/macros/s/AKfycbwTJAafqx8JZznA0blbkTEVCuoP-3G-rOU_rXWRMs1J3a9h6JPrJ37vMUyBO0uRAEgP/exechttps://script.google.com/macros/s/AKfycbwTJAafqx8JZznA0blbkTEVCuoP-3G-rOU_rXWRMs1J3a9h6JPrJ37vMUyBO0uRAEgP/exec';
 
 /* =========================================================
    HELPER
@@ -1034,7 +1155,6 @@ function refreshIcons() {
   }
 }
 
-/** Hitung persentase perubahan dari prev ke curr */
 function calcPct(curr, prev) {
   if (prev === 0) {
     if (curr === 0) return 0;
@@ -1473,17 +1593,16 @@ $('clear-search').addEventListener('click', () => {
 });
 
 /* =========================================================
-   CHART — Sistem Kumulatif (Running Balance)
+   CHART — Kumulatif + Zoom & Pan (Chart.js Zoom Plugin)
    ---------------------------------------------------------
-   • Setiap batang/momen dimulai dari NILAI AKHIR momen sebelumnya
-     (bukan direset ke 0).
-   • Batang hijau = net naik dari momen sebelumnya.
-   • Batang merah = net turun dari momen sebelumnya.
-   • Batang saling menempel (tanpa celah) agar tampak sebagai
-     pita/silinder bersambung yang mengikuti running balance.
-   • Line chart juga kumulatif, bersambung dari titik awal 0.
+   • Wheel / pinch / cubit = zoom
+   • Drag / geser = pan
+   • Tombol +/-/reset = kontrol manual
+   • Semua terbatas pada sumbu X saja (seperti chart saham)
    ========================================================= */
 const chartSelect = $('chartType');
+const chartShell  = $('chart-shell');
+const chartHint   = $('chart-hint');
 
 function maybeBuildChart() {
   const journeyVisible = !$('view-journey').classList.contains('hidden');
@@ -1511,13 +1630,10 @@ function buildChart() {
 
   // ===== DATA KUMULATIF =====
   const titles    = allLogs.map(log => [log.title, fmtShort(log._dateObj)]);
-  const netValues = allLogs.map(log => log.net_score);   // saldo akhir per momen
+  const netValues = allLogs.map(log => log.net_score);
+  const barStart  = allLogs.map((_, i) => (i === 0 ? 0 : netValues[i - 1]));
+  const barEnd    = netValues.slice();
 
-  // Titik awal tiap momen = saldo akhir momen sebelumnya (momen pertama mulai dari 0)
-  const barStart = allLogs.map((_, i) => (i === 0 ? 0 : netValues[i - 1]));
-  const barEnd   = netValues.slice();
-
-  // Untuk line chart: baseline 0 dulu, lalu lanjut ke tiap saldo berjalan
   const lineLabels = ['Awal', ...titles];
   const lineValues = [0, ...netValues];
 
@@ -1525,7 +1641,6 @@ function buildChart() {
   let dataset;
 
   if (type === 'line') {
-    // ===== LINE: saldo berjalan bersambung =====
     labels = lineLabels;
 
     dataset = {
@@ -1561,7 +1676,6 @@ function buildChart() {
     };
 
   } else {
-    // ===== BAR: floating bar (batang kumulatif bersambung) =====
     labels = titles;
 
     const barData = barEnd.map((end, i) => [
@@ -1592,13 +1706,16 @@ function buildChart() {
     };
   }
 
+  // ===== MIN RANGE berdasarkan jumlah data =====
+  const minRange = Math.min(Math.max(2, Math.ceil(allLogs.length * 0.15)), allLogs.length);
+
   momentumChart = new Chart(canvas.getContext('2d'), {
     type: type,
     data: { labels, datasets: [dataset] },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 900, easing: 'easeOutQuart' },
+      animation: { duration: 700, easing: 'easeOutQuart' },
       interaction: { mode: 'index', intersect: false },
       bar: {
         categoryPercentage: 1.0,
@@ -1626,6 +1743,37 @@ function buildChart() {
       },
       plugins: {
         legend: { display: false },
+
+        /* ====== ZOOM & PAN — gaya Stockbit ====== */
+        zoom: {
+          limits: {
+            x: { minRange: minRange },
+            y: { min: 'original', max: 'original' }
+          },
+          pan: {
+            enabled: true,
+            mode: 'x',
+            modifierKey: null,
+            threshold: 6,
+            onPanComplete: () => {}
+          },
+          zoom: {
+            wheel: {
+              enabled: true,
+              speed: 0.12,
+              modifierKey: null
+            },
+            pinch: {
+              enabled: true
+            },
+            drag: {
+              enabled: false
+            },
+            mode: 'x',
+            onZoomComplete: () => {}
+          }
+        },
+
         tooltip: {
           backgroundColor: surface,
           titleColor: textColor,
@@ -1676,10 +1824,29 @@ function buildChart() {
       }
     }
   });
+
+  // Update tooltip hint: sembunyikan hint setelah user interaksi
+  const hideHint = () => { if (chartHint) chartHint.style.opacity = '0'; };
+  chartShell.addEventListener('wheel', hideHint, { passive: true, once: true });
+  chartShell.addEventListener('touchstart', hideHint, { passive: true, once: true });
+  chartShell.addEventListener('mousedown', hideHint, { once: true });
 }
 
 chartSelect.addEventListener('change', () => {
   if (chartBuilt) buildChart();
+});
+
+/* =========================================================
+   ZOOM BUTTONS
+   ========================================================= */
+$('zoom-in').addEventListener('click', () => {
+  if (momentumChart) momentumChart.zoom(1.25);
+});
+$('zoom-out').addEventListener('click', () => {
+  if (momentumChart) momentumChart.zoom(0.8);
+});
+$('zoom-reset').addEventListener('click', () => {
+  if (momentumChart) momentumChart.resetZoom();
 });
 
 /* =========================================================
